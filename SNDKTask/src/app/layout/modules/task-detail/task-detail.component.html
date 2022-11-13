@@ -1,0 +1,138 @@
+<div class="container">
+    <div class="main-content" style="margin-top: 3%;">
+        <div class="row">
+            <div class="card" style="width: 100%;">
+                <div class="card-header">
+                    Statistics
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Pending Task List</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">{{this.pendingTaskList.length}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Completed Task List</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">{{this.completedTaskList.length}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary" (click)="addTask()">
+                                ADD Task Detail
+                            </button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+           
+        </div>
+        <div class="row">
+            <div class="card" style="width: 100%;">
+                <div class="card-header">
+                    Pending/Complete Task Details
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="example-container">
+                                <!-- <app-task-info (dropEvent)='drop($event)'></app-task-info> -->
+                                <div class="example-header">
+                                    <h4> Pending Tasks</h4>
+                                    <div class="form-group">
+                                      <input type="text" (keyup)="applyFilter($event)" class="form-control" placeholder="Search..." />
+                                    </div>
+                                  </div>
+                                  <div class="mat-elevation-z8">
+                                    <mat-table [dataSource]="dataSource" matSort cdkDropList
+                                    #todoList="cdkDropList"
+                                    [cdkDropListData]="pendingTaskList"
+                                    [cdkDropListConnectedTo]="[doneList]"
+                                    class="example-list"
+                                    (cdkDropListDropped)="drop($event)">
+                                      <!-- Name Column -->
+                                      <ng-container matColumnDef="name">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                                        <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+                                      </ng-container>
+                                      <ng-container matColumnDef="edit">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header> Edit </mat-header-cell>
+                                        <mat-cell *matCellDef="let row"> <button class="btn btn-primary" (click)="addTask(row)">
+                                           Edit
+                                        </button> </mat-cell>
+                                      </ng-container>
+                                      <ng-container matColumnDef="remove">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header> Remove </mat-header-cell>
+                                        <mat-cell *matCellDef="let row"> <button class="btn btn-warn" (click)="removeTask(row)">
+                                           Remove
+                                        </button> </mat-cell>
+                                      </ng-container>
+                                      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                      <mat-row *matRowDef="let row; columns: displayedColumns;" cdkDrag [cdkDragData]="row">
+                                      </mat-row>
+                                    </mat-table>
+                                  
+                                    <mat-paginator #MatPaginator1 [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
+                                    </mat-paginator>
+                                  </div>
+                              </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="example-container">
+                                <!-- <app-task-info (dropEvent)='drop($event)'></app-task-info> -->
+                                <div class="example-header">
+                                   <h4> Completed Tasks</h4>
+                                    <div class="form-group">
+                                      <input type="text" (keyup)="applyFilterForCompleted($event)" class="form-control" placeholder="Search..." />
+                                    </div>
+                                  </div>
+                                  <div class="mat-elevation-z8">
+                                    <mat-table [dataSource]="dataSource2" matSort cdkDropList
+                                    #doneList="cdkDropList"
+                                    [cdkDropListData]="completedTaskList"
+                                    [cdkDropListConnectedTo]="[todoList]"
+                                    class="example-list"
+                                    (cdkDropListDropped)="drop($event)">
+                                      <!-- Name Column -->
+                                      <ng-container matColumnDef="name">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                                        <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+                                      </ng-container>
+                                      <ng-container matColumnDef="edit">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header> Edit </mat-header-cell>
+                                        <mat-cell *matCellDef="let row"> <button class="btn btn-primary" (click)="addTask(row)">
+                                           Edit
+                                        </button> </mat-cell>
+                                      </ng-container>
+
+                                      <ng-container matColumnDef="remove">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header> Remove </mat-header-cell>
+                                        <mat-cell *matCellDef="let row"> <button class="btn btn-warn" (click)="removeTask(row)">
+                                           Remove
+                                        </button> </mat-cell>
+                                      </ng-container>
+                                      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                      <mat-row *matRowDef="let row; columns: displayedColumns;" cdkDrag [cdkDragData]="row">
+                                      </mat-row>
+                                    </mat-table>
+                                  
+                                    <mat-paginator #MatPaginator2 [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
+                                    </mat-paginator>
+                                  </div>
+                              </div>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
